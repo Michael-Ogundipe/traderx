@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:traderx/features/authentication/presentation/widgets/login_view.dart';
+import 'package:traderx/globals.dart';
 
 void main() {
   runApp(
@@ -15,9 +16,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
+      scaffoldMessengerKey: snackBarKey,
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      home: LoginView(),
+      home: const LoginView(),
     );
   }
 }
