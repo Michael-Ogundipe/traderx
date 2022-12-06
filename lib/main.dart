@@ -3,6 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:traderx/features/authentication/presentation/widgets/login_view.dart';
 import 'package:traderx/globals.dart';
 
+import 'features/authentication/presentation/controllers/login_controller.dart';
+
 void main() {
   runApp(
     const ProviderScope(
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       scaffoldMessengerKey: snackBarKey,
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
-      home: const LoginView(),
+      home: LoginView(LoginController()),
     );
   }
 }

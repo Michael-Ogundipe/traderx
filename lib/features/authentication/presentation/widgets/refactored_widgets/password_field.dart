@@ -4,12 +4,13 @@ import 'package:traderx/common_widgets/t_text_form_field.dart';
 import 'package:traderx/constants/colors.dart';
 import 'package:traderx/features/authentication/presentation/provider/login_provider.dart';
 
-/// Login with phone number option
-
-class NumberOption extends StatelessWidget {
-  const NumberOption({
+class PasswordField extends StatelessWidget {
+  const PasswordField({
     Key? key,
+    this.controller,
   }) : super(key: key);
+
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class NumberOption extends StatelessWidget {
             },
           ),
           obscureText: ref.watch(passwordVisibilityProvider) ? true : false,
+          controller: controller,
         );
       },
     );

@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:traderx/constants/colors.dart';
+import 'package:traderx/features/%20main_screen/presentation/widgets/home_view.dart';
 import 'package:traderx/features/authentication/domain/models/login_model.dart';
+import 'package:traderx/features/authentication/presentation/controllers/login_controller.dart';
 import 'package:traderx/features/authentication/presentation/widgets/login_view.dart';
 import 'package:traderx/globals.dart';
 
@@ -36,9 +38,27 @@ class LoginService extends StateNotifier<bool> {
         ),
       );
 
+      if(response.body.isNotEmpty) {
+        json.decode(response.body);
+        return LoginModel.fromJson(json.decode(response.body));
+      }else{
+        navigatorKey.currentState!.pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) =>  HomeView()),
+                (Route<dynamic> route) => false);
+
+        const snackBar = SnackBar(
+          content: Text(
+            'Login successful but response body is empty',
+          ),
+          backgroundColor: kRed,
+        );
+        snackBarKey.currentState?.showSnackBar(snackBar);
+        return LoginModel.fromJson(json.decode(response.body));
+      }
+
       if (response.statusCode == 200) {
         navigatorKey.currentState!.pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LoginView()),
+            MaterialPageRoute(builder: (context) =>  LoginView(LoginController())),
                 (Route<dynamic> route) => false);
 
         //loadingState == false;
@@ -49,10 +69,10 @@ class LoginService extends StateNotifier<bool> {
         // loading state == false
         state = false;
 
-        final Map responseString = json.decode(response.body);
+        final responseString = json.decode(response.body);
         final snackBar = SnackBar(
           content: Text(
-            'An error occurred: ${responseString.values.toString()}',
+            'An error occurred: ${responseString.toString()}',
           ),
           backgroundColor: kRed,
         );

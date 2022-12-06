@@ -1,4 +1,5 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:traderx/common_widgets/t_elevated_button.dart';
@@ -7,13 +8,16 @@ import 'package:traderx/constants/colors.dart';
 import 'package:traderx/constants/spacing.dart';
 import 'package:traderx/constants/text_styles.dart';
 import 'package:traderx/features/%20main_screen/presentation/widgets/home_view.dart';
+import 'package:traderx/features/authentication/presentation/controllers/login_controller.dart';
 import 'package:traderx/features/authentication/presentation/provider/login_provider.dart';
 import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/email_option.dart';
 import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/login_option.dart';
-import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/number_option.dart';
+import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/password_field.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({Key? key}) : super(key: key);
+  const LoginView(this.loginController, {Key? key}) : super(key: key);
+
+  final LoginController loginController;
 
   @override
   Widget build(BuildContext context) {
@@ -35,25 +39,35 @@ class LoginView extends StatelessWidget {
                       (BuildContext context, WidgetRef ref, Widget? child) {
                     return Visibility(
                       visible: ref.watch(loginOptionsProvider),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Email', style: AppStyle.kLabelText14),
-                          verticalSpaceTiny,
-                          const TTextFormField(
-                            hintText: "Email",
-                            obscureText: false,
-                          ),
-                          verticalSpaceMedium
-                        ],
+                      child: Form(
+                        key: loginController.loginFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Email', style: AppStyle.kLabelText14),
+                            verticalSpaceTiny,
+                            TTextFormField(
+                              hintText: "Email",
+                              obscureText: false,
+                              controller: loginController.emailController,
+                              validator: (value) =>
+                                  EmailValidator.validate(value!.trim())
+                                      ? null
+                                      : "Please enter a valid email",
+                            ),
+                            verticalSpaceMedium
+                          ],
+                        ),
                       ),
                     );
                   },
                 ),
-                const EmailOption(),
+                const NumberOption(),
                 Text('Password', style: AppStyle.kLabelText14),
                 verticalSpaceTiny,
-                const NumberOption(),
+                PasswordField(
+                  controller: loginController.passwordController,
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -98,14 +112,20 @@ class LoginView extends StatelessWidget {
                 ),
                 verticalSpaceRegular2,
                 verticalSpaceLarge,
-                TElevatedButton(
-                  title: 'Log In',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeView(),
-                      ),
+                Consumer(
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
+                    return TElevatedButton(
+                      title: 'Log In',
+                      onPressed: () {
+                        if (loginController.loginFormKey.currentState!
+                            .validate()) {
+                          ref.read(loginStateProvider.notifier).signInClients(
+                                loginController.emailController.text.trim(),
+                                loginController.passwordController.text.trim(),
+                              );
+                        }
+                      },
                     );
                   },
                 ),
@@ -142,8 +162,8 @@ class LoginView extends StatelessWidget {
                       (BuildContext context, WidgetRef ref, Widget? child) {
                     final loginOptions = ref.watch(loginOptionsProvider);
                     return LoginOptions(
-                      icon: loginOptions?  Icons.phone : Icons.email,
-                      title: loginOptions? 'Phone Number' : 'Email',
+                      icon: loginOptions ? Icons.phone : Icons.email,
+                      title: loginOptions ? 'Phone Number' : 'Email',
                       onTap: () {
                         ref.read(loginOptionsProvider.notifier).state =
                             !ref.read(loginOptionsProvider.notifier).state;
@@ -160,4 +180,3 @@ class LoginView extends StatelessWidget {
     );
   }
 }
-

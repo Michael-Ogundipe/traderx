@@ -7,10 +7,10 @@ import 'package:traderx/constants/spacing.dart';
 import 'package:traderx/constants/text_styles.dart';
 import 'package:traderx/features/authentication/presentation/provider/login_provider.dart';
 
-/// Login with Email option
+/// Login with Phone number option
 
-class EmailOption extends StatelessWidget {
-  const EmailOption({
+class NumberOption extends StatelessWidget {
+  const NumberOption({
     Key? key,
   }) : super(key: key);
 
