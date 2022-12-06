@@ -8,10 +8,12 @@ class LoginOptions extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.title,
+    this.onTap,
   }) : super(key: key);
 
   final IconData icon;
   final String title;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +35,26 @@ class LoginOptions extends StatelessWidget {
         margin: const EdgeInsets.symmetric(
           vertical: 27,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-             Icon(icon,
-              color: kGreen,
-            ),
-            horizontalSpaceRegular,
-            Text(
-              title,
-              style: AppStyle.kLabelText14.copyWith(
-                fontWeight: FontWeight.w700,
+        child: InkWell(
+          onTap: onTap,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
                 color: kGreen,
               ),
-            ),
-          ],
+              horizontalSpaceRegular,
+              Text(
+                title,
+                style: AppStyle.kLabelText14.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: kGreen,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

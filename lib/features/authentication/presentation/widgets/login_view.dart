@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:traderx/common_widgets/t_elevated_button.dart';
@@ -7,7 +8,9 @@ import 'package:traderx/constants/spacing.dart';
 import 'package:traderx/constants/text_styles.dart';
 import 'package:traderx/features/%20main_screen/presentation/widgets/home_view.dart';
 import 'package:traderx/features/authentication/presentation/provider/login_provider.dart';
+import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/email_option.dart';
 import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/login_option.dart';
+import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/number_option.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -27,58 +30,52 @@ class LoginView extends StatelessWidget {
                 Text('Michael',
                     style: AppStyle.kTitleText.copyWith(height: 1.0)),
                 verticalSpaceMedium,
-                Text('Email', style: AppStyle.kLabelText14),
-                verticalSpaceTiny,
-                const TTextFormField(
-                  hintText: "Email",
-                  obscureText: false,
-                ),
-                verticalSpaceMedium,
-                Text('Password', style: AppStyle.kLabelText14),
-                verticalSpaceTiny,
                 Consumer(
                   builder:
                       (BuildContext context, WidgetRef ref, Widget? child) {
-                    return TTextFormField(
-                      hintText: "Password",
-                      suffixIcon: InkWell(
-                        child: Icon(
-                            ref.watch(passwordVisibilityProvider)
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: kInactive),
-                        onTap: () {
-                          ref.read(passwordVisibilityProvider.notifier).state =
-                              !ref
-                                  .read(passwordVisibilityProvider.notifier)
-                                  .state;
-                        },
+                    return Visibility(
+                      visible: ref.watch(loginOptionsProvider),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Email', style: AppStyle.kLabelText14),
+                          verticalSpaceTiny,
+                          const TTextFormField(
+                            hintText: "Email",
+                            obscureText: false,
+                          ),
+                          verticalSpaceMedium
+                        ],
                       ),
-                      obscureText:
-                          ref.watch(passwordVisibilityProvider) ? true : false,
                     );
                   },
                 ),
+                const EmailOption(),
+                Text('Password', style: AppStyle.kLabelText14),
+                verticalSpaceTiny,
+                const NumberOption(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                   Consumer(
-                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                       return  Checkbox(
-                         shape: RoundedRectangleBorder(
-                           borderRadius: BorderRadius.circular(
-                             2,
-                           ),
-                         ),
-                         value: ref.watch(rememberLoginProvider),
-                         activeColor: Colors.yellow,
-                         fillColor: MaterialStateProperty.all(kGreen),
-                         onChanged: (value) {
+                    Consumer(
+                      builder:
+                          (BuildContext context, WidgetRef ref, Widget? child) {
+                        return Checkbox(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              2,
+                            ),
+                          ),
+                          value: ref.watch(rememberLoginProvider),
+                          activeColor: Colors.yellow,
+                          fillColor: MaterialStateProperty.all(kGreen),
+                          onChanged: (value) {
                             ref.read(rememberLoginProvider.notifier).state =
                                 value!;
-                         },
-                       );
-                     },),
+                          },
+                        );
+                      },
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
@@ -140,9 +137,19 @@ class LoginView extends StatelessWidget {
                     ),
                   ),
                 ),
-                const LoginOptions(
-                  icon: Icons.phone,
-                  title: 'Phone Number',
+                Consumer(
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
+                    final loginOptions = ref.watch(loginOptionsProvider);
+                    return LoginOptions(
+                      icon: loginOptions?  Icons.phone : Icons.email,
+                      title: loginOptions? 'Phone Number' : 'Email',
+                      onTap: () {
+                        ref.read(loginOptionsProvider.notifier).state =
+                            !ref.read(loginOptionsProvider.notifier).state;
+                      },
+                    );
+                  },
                 ),
                 verticalSpaceLarge
               ],
@@ -153,3 +160,4 @@ class LoginView extends StatelessWidget {
     );
   }
 }
+

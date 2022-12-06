@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^3.0.1
   badges: ^2.0.3
   hooks_riverpod: ^2.1.1
+  country_picker: ^2.0.18
 
 dev_dependencies:
   flutter_test:
