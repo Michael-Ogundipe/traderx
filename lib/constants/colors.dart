@@ -8,5 +8,5 @@ const kWhiteSmoke = Color(0XFFF8F8F8);
 const kWhiteSmoke2 = Color(0XFFF5F5F5);
 const kSilver = Color(0XFFBFBFBF);
 const kGreen = Color(0XFF00A859);
-const kPrimary50 = Color(0XFFCCEEDE);
+const kPrimary50 = Color(0X4DCCEEDE);
 const kRed = Color(0XFFFF0000);

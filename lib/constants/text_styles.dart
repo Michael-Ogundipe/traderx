@@ -28,6 +28,13 @@ class AppStyle {
     color: kGrayDark,
   );
 
+  static TextStyle kRegular12 = GoogleFonts.mulish(
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    height: 2,
+    color: kGrayDark,
+  );
+
   static TextStyle kButtonBold2 = GoogleFonts.mulish(
     fontWeight: FontWeight.w700,
     fontSize: 18,
