@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:traderx/common_widgets/t_elevated_button.dart';
 import 'package:traderx/common_widgets/t_text_form_field.dart';
 import 'package:traderx/constants/colors.dart';
 import 'package:traderx/constants/spacing.dart';
 import 'package:traderx/constants/text_styles.dart';
 import 'package:traderx/features/%20main_screen/presentation/widgets/home_view.dart';
+import 'package:traderx/features/authentication/presentation/provider/login_provider.dart';
 import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/login_option.dart';
 
 class LoginView extends StatelessWidget {
@@ -34,24 +36,49 @@ class LoginView extends StatelessWidget {
                 verticalSpaceMedium,
                 Text('Password', style: AppStyle.kLabelText14),
                 verticalSpaceTiny,
-                const TTextFormField(
-                  hintText: "Password",
-                  obscureText: false,
+                Consumer(
+                  builder:
+                      (BuildContext context, WidgetRef ref, Widget? child) {
+                    return TTextFormField(
+                      hintText: "Password",
+                      suffixIcon: InkWell(
+                        child: Icon(
+                            ref.watch(passwordVisibilityProvider)
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: kInactive),
+                        onTap: () {
+                          ref.read(passwordVisibilityProvider.notifier).state =
+                              !ref
+                                  .read(passwordVisibilityProvider.notifier)
+                                  .state;
+                        },
+                      ),
+                      obscureText:
+                          ref.watch(passwordVisibilityProvider) ? true : false,
+                    );
+                  },
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Checkbox(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          2,
-                        ),
-                      ),
-                      value: false,
-                      activeColor: Colors.yellow,
-                      fillColor: MaterialStateProperty.all(kGreen),
-                      onChanged: (value) {},
-                    ),
+                   Consumer(
+                     builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                       return  Checkbox(
+                         shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(
+                             2,
+                           ),
+                         ),
+                         value: ref.watch(rememberLoginProvider),
+                         activeColor: Colors.yellow,
+                         fillColor: MaterialStateProperty.all(kGreen),
+                         onChanged: (value) {
+                            ref.read(rememberLoginProvider.notifier).state =
+                                value!;
+                         },
+                       );
+                     },),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
@@ -126,4 +153,3 @@ class LoginView extends StatelessWidget {
     );
   }
 }
-

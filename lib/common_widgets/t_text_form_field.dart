@@ -33,6 +33,7 @@ class TTextFormField extends StatelessWidget {
       controller: controller,
       validator: validator,
       onChanged: onChanged,
+      obscureText: obscureText,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: keyboardType,
       decoration: InputDecoration(
@@ -40,6 +41,8 @@ class TTextFormField extends StatelessWidget {
         filled: true,
         fillColor: kWhiteSmoke,
         prefix: prefix,
+
+        suffixIcon: suffixIcon,
         hintText: hintText,
         hintStyle: AppStyle.kLabelText14.copyWith(
           color: kSilver,
