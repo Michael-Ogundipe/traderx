@@ -4,6 +4,7 @@ import 'package:traderx/constants/spacing.dart';
 import 'package:traderx/constants/text_styles.dart';
 import 'package:traderx/features/%20main_screen/presentation/widgets/refactored_widgets/account_card.dart';
 import 'package:traderx/features/%20main_screen/presentation/widgets/refactored_widgets/account_header.dart';
+import 'package:traderx/features/%20main_screen/presentation/widgets/refactored_widgets/info_card.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -14,86 +15,51 @@ class HomeView extends StatelessWidget {
       backgroundColor: kWhiteSmoke2,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 45.0),
+          padding: const EdgeInsets.only(left: 24.0, right: 24.0),
           child: SingleChildScrollView(
             child: Column(
-              children: [
-                const AccountHeader(),
-                const AccountCard(
+              children:  const [
+                verticalSpaceMedium2,
+                AccountHeader(),
+                AccountCard(
                   title: "Checkings Account",
                   subtitle: "\$25,000.00",
                   headerColor: kPrimary50,
                 ),
-                const AccountCard(
+                AccountCard(
                   title: "Business Account",
                   subtitle: "\$5,000.00",
                   headerColor: kSecondary50,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 24.0),
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 12.0),
-                  decoration: BoxDecoration(
-                    color: kCardBg,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset("assets/icons/group.png"),
-                      horizontalSpaceSmall,
-                      Column(
-                        children: [
-                          Text(
-                            "Get \$5 plus 10% of the fee for 365 days ",
-                            style: AppStyle.kRegular14
-                                .copyWith(fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            "Refer a friend and get \$5 when they make their first dollars to naira exchange of \$500 and above, "
-                            "plus 10% of the fee everytime they make exchange for 365 days.",
-                            style: AppStyle.kRegular12.copyWith(color: kGray8),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                InfoCard(
+                  title: "Get \$5 plus 10% of the fee for 365 days ",
+                  subtitle: "Refer a friend and get \$5 when they make their first dollars to naira exchange of \$500 and above, "
+                      "plus 10% of the fee everytime they make exchange for 365 days.",
+                  icon: "assets/icons/group.png",
+                  primaryColor: kCardBg,
+                  backgroundColor: kCardBg4,
+                  invertImage: false,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 24.0),
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 12.0),
-                  decoration: BoxDecoration(
-                    color: kCardBg2,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset("assets/images/img1.png"),
-                          horizontalSpaceSmall,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Currency Exchange",
-                                style: AppStyle.kRegular14
-                                    .copyWith(fontWeight: FontWeight.w700),
-                              ),
-                              Text(
-                                "View pending and completed exchange request",
-                                style: AppStyle.kRegular12.copyWith(color: kGray8),
-                              )
-                            ],
-                          ),
-                        ],
-                      )
-                    ]
-                  ),
-                )
+                InfoCard(
+                  title: "Currency Exchange",
+                  subtitle: "View pending and completed exchange requesting",
+                  icon: "assets/images/img1.png",
+                  primaryColor: kCardBg2,
+                  backgroundColor: kCardBg5,
+                  invertImage: false,
+                ),
+                InfoCard(
+                  title: "Get Paid",
+                  subtitle: "Create and send payment invoice to your clients and get paid for services rendered",
+                  icon: "assets/images/img3.png",
+                  primaryColor: kCardBg6,
+                  backgroundColor: kCardBg7,
+                  invertImage: true,
+                ),
+
+                verticalSpaceLarge
               ],
+
             ),
           ),
         ),
@@ -101,3 +67,4 @@ class HomeView extends StatelessWidget {
     );
   }
 }
+
