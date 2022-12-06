@@ -25,7 +25,7 @@ class AccountCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration:  BoxDecoration(
             color: headerColor,
-            border: Border.all(color: kWhisper),
+            border: Border.all(color: kWhisper, width: 0.5),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),

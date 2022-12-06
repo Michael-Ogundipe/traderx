@@ -7,7 +7,6 @@ import 'package:traderx/common_widgets/t_text_form_field.dart';
 import 'package:traderx/constants/colors.dart';
 import 'package:traderx/constants/spacing.dart';
 import 'package:traderx/constants/text_styles.dart';
-import 'package:traderx/features/%20main_screen/presentation/widgets/home_view.dart';
 import 'package:traderx/features/authentication/presentation/controllers/login_controller.dart';
 import 'package:traderx/features/authentication/presentation/provider/login_provider.dart';
 import 'package:traderx/features/authentication/presentation/widgets/refactored_widgets/email_option.dart';
@@ -22,7 +21,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kWhiteSmoke2,
+      backgroundColor: kWhite,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 51),
@@ -115,9 +114,11 @@ class LoginView extends StatelessWidget {
                 Consumer(
                   builder:
                       (BuildContext context, WidgetRef ref, Widget? child) {
+                        final isLoading = ref.watch(loginStateProvider);
                     return TElevatedButton(
-                      title: 'Log In',
-                      onPressed: () {
+                        title: isLoading ? "Loading..." : "Log In",
+                        backgroundColor: isLoading ? kInactive : kGreen,
+                        onPressed: isLoading? (){} : () {
                         if (loginController.loginFormKey.currentState!
                             .validate()) {
                           ref.read(loginStateProvider.notifier).signInClients(

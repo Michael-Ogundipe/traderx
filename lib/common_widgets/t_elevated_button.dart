@@ -7,10 +7,12 @@ class TElevatedButton extends StatelessWidget {
     Key? key,
     required this.title,
     this.onPressed,
+    this.backgroundColor,
   }) : super(key: key);
 
   final String title;
   final void Function()? onPressed;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class TElevatedButton extends StatelessWidget {
         height: 60,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: kGreen,
+            backgroundColor: backgroundColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

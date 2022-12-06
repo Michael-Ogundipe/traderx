@@ -14,7 +14,7 @@ import 'package:traderx/globals.dart';
 class LoginService extends StateNotifier<bool> {
   LoginService() : super(false);
 
-  Future<LoginModel> signInClients(String email, String password) async {
+  Future signInClients(String email, String password) async {
     try {
       //loadingState == true;
       state = true;
@@ -32,54 +32,42 @@ class LoginService extends StateNotifier<bool> {
         headers: headers,
         body: jsonEncode(
           {
-            "email": email,
+            "username": email,
             "password": password,
+            "deviceIdentifier": "dev-from-mobile",
+            "registerAsNewDevice": "false",
+            "otp": "",
+            "channel": "MOBILE"
+
           },
         ),
       );
 
-      if(response.body.isNotEmpty) {
-        json.decode(response.body);
-        return LoginModel.fromJson(json.decode(response.body));
-      }else{
-        navigatorKey.currentState!.pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) =>  HomeView()),
-                (Route<dynamic> route) => false);
-
-        const snackBar = SnackBar(
-          content: Text(
-            'Login successful but response body is empty',
-          ),
-          backgroundColor: kRed,
-        );
-        snackBarKey.currentState?.showSnackBar(snackBar);
-        return LoginModel.fromJson(json.decode(response.body));
-      }
-
       if (response.statusCode == 200) {
+        // send OTP to email for verification;
         navigatorKey.currentState!.pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) =>  LoginView(LoginController())),
+            MaterialPageRoute(builder: (context) => const HomeView()),
                 (Route<dynamic> route) => false);
 
         //loadingState == false;
         state = false;
 
-        return LoginModel.fromJson(json.decode(response.body));
-      } else {
+      }
+      else {
         // loading state == false
         state = false;
 
-        final responseString = json.decode(response.body);
+        final Map responseString = json.decode(response.body);
         final snackBar = SnackBar(
           content: Text(
-            'An error occurred: ${responseString.toString()}',
+            'An error occurred: ${responseString.values.toString()}',
           ),
           backgroundColor: kRed,
         );
         snackBarKey.currentState?.showSnackBar(snackBar);
 
-        return LoginModel.fromJson(json.decode(response.body));
       }
+
     } on SocketException catch (e) {
       state = false;
       final snackBar = SnackBar(
@@ -88,7 +76,6 @@ class LoginService extends StateNotifier<bool> {
         ),
         backgroundColor: kRed,
       );
-      print(e.message);
       snackBarKey.currentState?.showSnackBar(snackBar);
       return LoginModel.fromJson(json.decode(e.message));
     }

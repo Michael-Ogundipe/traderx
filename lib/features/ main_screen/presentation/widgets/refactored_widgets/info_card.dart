@@ -27,7 +27,7 @@ class InfoCard extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Positioned(
-          left: MediaQuery.of(context).size.width * 0.03,
+          left: MediaQuery.of(context).size.width * 0.04,
           bottom: -12,
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -39,7 +39,7 @@ class InfoCard extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 24.0),
+          margin: const EdgeInsets.only(top: 36.0),
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
           decoration: BoxDecoration(
