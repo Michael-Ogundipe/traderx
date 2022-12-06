@@ -27,7 +27,7 @@ class HomeView extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
-                    Text("Welcome, let’s get you started")
+                    Text("Welcome, let’s get you started ")
                   ],
                 ),
                 decoration: BoxDecoration(
