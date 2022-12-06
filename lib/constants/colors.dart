@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 
+const kCardBg = Color(0XFFE2F3FC);
+const kCardBg2 = Color(0XFFF7F7F7);
+const kIconBg = Color(0XFF959595);
+const kIconBg2 = Color(0X1A6A6A6A);
 const kGrayShadow = Color(0X1ABEBEBE);
 const kGrayDark = Color(0XFF0E0E0E);
 const kGrayDim = Color(0XFF636363);
+const kGray8 = Color(0XFF4B4A4A);
 const kGray85 = Color(0XFFD9D9D9);
 const kWhite = Color(0XFFFFFFFF);
 const kWhiteSmoke = Color(0XFFF8F8F8);
